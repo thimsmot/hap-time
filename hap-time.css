@@ -1,0 +1,66 @@
+.hap-time {
+    width: 80px;
+    height: 27px;
+    margin: 0;
+    padding: 0;
+    color: #3E2E2E;
+    background-color: #edf5f9;
+}
+
+.hap-time-hour,
+.hap-time-minute,
+.hap-time-separator {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 19px;
+    border: none;
+    color: #0078a9;
+    background-color: #edf5f9;
+    text-align: center;
+    width: 27px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 27px;
+    float: left;
+}
+
+.hap-time-separator {
+    width: 8px;
+    overflow: hidden;
+}
+
+.hap-time-meridiem {
+    font-family: "Lucida Console", Monaco, monospace;
+    height: 100%;
+    float: left;
+    font-size: 0.5em;
+}
+
+.hap-time-meridiem p {
+    color: #ABABAB;
+    margin: 0;
+    padding: 0;
+    height: 13px;
+    width: 16px;
+    line-height: 13px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hap-time-meridiem p.active {
+    color: #0078a9;
+    background-color: #9acfea;
+}
+
+.hap-time-label {
+    text-align: right;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 11px;
+    width: 80px;
+    height: 100%;
+    margin: 0;
+    padding-right: 4px;
+    float: left;
+}

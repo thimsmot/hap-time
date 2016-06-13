@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HAP Time Picker</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/hap-time.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id='hap-time-1' class='hap-time'>
+            <input class='hap-time-hour' maxlength='2'>
+            <span class='hap-time-separator'>:</span>
+            <input class='hap-time-minute' maxlength='2'>
+            <div class='hap-time-meridiem'><p class='active'>AM</p><p>PM</p></div>
+        </div>
+        <hr>
+        <div id='hap-time-2' class='hap-time'>
+            <input class='hap-time-hour' maxlength='2'>
+            <span class='hap-time-separator'>:</span>
+            <input class='hap-time-minute' maxlength='2'>
+            <div class='hap-time-meridiem'><p class='active'>AM</p><p>PM</p></div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="js/hap-time.js" type="text/javascript"></script>
+        <script>
+            // Initialize all the HAP time objects.
+            $(".hap-time").haptime();
+
+            // Set the first HAP Time object to the current time using a Date object.
+            $("#hap-time-1").haptime("setTime", new Date());
+
+            // Set the next HAP Time object to a static time, using a string.
+            $("#hap-time-2").haptime("setTime", "15:33:00");
+        </script>
+    </body>
+</html>
