@@ -401,6 +401,7 @@
     }
 
     /**
+     * Utility function to test whether a number is in a range.
      *
      * @param {Number} value The value to be tested again a minimum and maximum value.
      * @param {Number} min The value to be used as the minimum value in a range comparison.
