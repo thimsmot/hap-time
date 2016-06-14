@@ -51,6 +51,18 @@
         return retVal;
     };
 
+    /**
+     * Change the state of the hap-time object from editable to read-only and
+     * vice versa. The 'readonly' property is added to the relevant elements,
+     * the cursor is changed to indicate 'not clickable' and the event handlers
+     * are unbound.
+     *
+     * @author Thomas Smith <tom@happyalienprouctions.com>
+     * @version 1.0
+     * @param {object} $haptime A div.hap-time jQuery object.
+     * @param {boolean} readOnly True to set the object state to read-only, false to make editable.
+     * @returns {null}
+     */
     function setReadOnly($haptime, readOnly) {
         if (readOnly) {
             // Remove the event handlers.
@@ -69,6 +81,15 @@
         }
     }
 
+    /**
+     * Reses the control to an editable state. The 'readonly' property is removed,
+     * event handlers reattached, and cursor restored.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {object} $haptime A div.hap-time jQuery object.
+     * @returns {null}
+     */
     function clearReadOnly($haptime) {
         // Remove readonly attribute from the inputs.
         $haptime.children('.hap-time-hour').prop('readonly', false);
@@ -83,6 +104,15 @@
         $haptime.children('.hap-time-meridiem').children('p').css('cursor', 'pointer');
     }
 
+    /**
+     * Returns and ISO formatted time string representing the time currently being
+     * stored by the object.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {object} $haptime A div.hap-time jQuery object.
+     * @returns {String} A string representing the currently set time.
+     */
     function getIsoTime($haptime) {
         var hh = parseInt($haptime.children('.hap-time-hour').val());
         var mm = parseInt($haptime.children('.hap-time-minute').val());
@@ -95,7 +125,7 @@
 
         if (isNaN(mm)) {
             $haptime.children('.hap-time-minute').val(leadingZero(0));
-            mm= 0;
+            mm = 0;
         }
 
         if (hh === 12 && !pm) {
@@ -108,6 +138,16 @@
         return retVal;
     }
 
+    /**
+     * A wrapper/helper function to set the time to be displayed by the control.
+     * Accepts either and initialized JavaScript Date object or, an ISO time string.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {object} $haptime A div.hap-time jQuery object.
+     * @param {type} time A JavaScript Date or ISO time string.
+     * @returns {null}
+     */
     function setTime($haptime, time) {
         if (typeof time === 'object') {
             setTimeFromDateObject($haptime, time);
@@ -116,6 +156,16 @@
         }
     }
 
+    /**
+     * Worker function that sets the controls values from an initialized
+     * JavaScript Date object.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {object} $haptime A div.hap-time jQuery object.
+     * @param {Date} dateObject An initialized JavaScript Date object.
+     * @returns {null}
+     */
     function setTimeFromDateObject($haptime, dateObject) {
         var timeString = dateObject.toLocaleTimeString();
         var timeElements = timeString.substring(0, 8).split(":");
@@ -131,6 +181,15 @@
         }
     };
 
+    /**
+     * Worker function that sets the controls values from an ISO time string.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {object} $haptime A div.hap-time jQuery object.
+     * @param {String} timeString An ISO time string.
+     * @returns {null}
+     */
     function setTimeFromIso($haptime, timeString) {
         // HH:MM:SS in military (24-hour) time, e.g. 22:35 = 10:35 PM.
         var timeElements = timeString.split(":");
@@ -154,7 +213,15 @@
         $haptime.children('.hap-time-minute').val(leadingZero(mm));
     }
 
-    function onClickMeridiem(e) {
+    /**
+     * Click event handler to toggle choice of 'AM' or 'PM'.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {Event} event
+     * @returns {Boolean}
+     */
+    function onClickMeridiem(event) {
         var retVal = true;
 
         if ($(this).hasClass('active')) {
@@ -167,6 +234,20 @@
         return retVal;
     }
 
+    /**
+     * Key stroke event handler to control and filter input for the 'hour'
+     * portion of the control. The standard arrow keys, as well as the
+     * keypad '+' and '-' keys are handled. All others are passed on.
+     *
+     * The goal is to provide circular incrementing and decrementing so that
+     * only values that makes sense as an hour of the day will be allowed.
+     * E.g. 1 - 12 for a normal 12 hour clock.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {Event} event
+     * @returns {Boolean}
+     */
     function onHourKeyDown(event) {
         var retVal = true;
         var hour = parseInt($(this).val());
@@ -208,6 +289,20 @@
         return retVal;
     }
 
+    /**
+     * Key stroke event handler to control and filter input for the 'minute'
+     * portion of the control. The standard arrow keys, as well as the
+     * keypad '+' and '-' keys are handled. All others are passed on.
+     *
+     * The goal is to provide circular incrementing and decrementing so that
+     * only values that make sense as a minute of an hour will be allowed.
+     * E.g. 0 - 59.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {Event} event
+     * @returns {Boolean}
+     */
     function onMinuteKeyDown(event) {
         var retVal = true;
         var minute = parseInt($(this).val());
@@ -245,6 +340,17 @@
         return retVal;
     }
 
+    /**
+     * An event handler to process and/or filter all keyboard input other than
+     * incrementation and decrementation. The 'a' and 'p' keys are handled to
+     * allow for selection of 'AM' or 'PM' and a few others are allowed to
+     * facilitate entry and editing. Everything else is ignored.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {Event} event A keystroke event.
+     * @returns {Boolean}
+     */
     function onKeyDown(event) {
         var retVal = true;
 
@@ -282,10 +388,25 @@
         return retVal;
     }
 
+    /**
+     * Utility function to prepend a leading zero on a number it is less than 10.
+     *
+     * @author Thomas Smith <tom@happyalienproductions.com>
+     * @version 1.0
+     * @param {Integer} theNumber A number to test
+     * @returns {String} Returns 'theNumber' with a zero prepended if less than 10.
+     */
     function leadingZero(theNumber) {
         return theNumber <= 9 ? "0" + theNumber.toString() : theNumber.toString();
     }
 
+    /**
+     *
+     * @param {Number} value The value to be tested again a minimum and maximum value.
+     * @param {Number} min The value to be used as the minimum value in a range comparison.
+     * @param {Number} max Tbe value to be used as the maximum value in a range comparison.
+     * @returns {Boolean} True if 'value' is between 'min' and 'max' (inclusive).
+     */
     function inRange(value, min, max) {
         return (value <= max) && (value >= min);
     }
